@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class ="card-wrapper">
+
+        <div class="card">
+
+            <h1 class="center">Dashboard</h1>
+            <p class="center">You are currently logged in.</p>
+            
+            <div class="center">
+                <a href="/user/signout" class="btn btn--secondary">Sign Out</a>
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h2 class="center">Your Info</h2>
+
+            <p>
+                <strong>ID:</strong> {{ session['user']['_id']}}
+                <strong>Name:</strong> {{ session['user']['name']}}
+                <strong>Email:</strong> {{ session['user']['email']}}
+            </p>
+        </div>
+
+    </div>
+
+    <div class="card">
+        <form name="userbook_catch">
+            <label for="user">user:</label>
+            <select id="user" name="user">
+                {% for row in userlist %}
+                <option value="{{row.name}}">{{row.name}}</option>
+                {% endfor %}
+            </select>
+            <input class="btn btn-secondary" type="submit" value="Acquire DietBook" />
+        </form>
+    </div>
+
+    <div class ="container" style="width:100%">
+        <div class="panel panel-default">
+            <h3 align="center">Choose table to load</h3>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table id="user_dietbook" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                {% for header in headings %}
+                                <th>{{ header }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr> 
+                                <th>Breakfast</th>
+                                {% for row in data %}
+                                <td data-name="breakfast" class="breakfast" data-type="text" data-pk="{{row.id}}">{{row.breakfast}}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr> 
+                                <th>Brunch</th>
+                                {% for row in data %}
+                                <td data-name="brunch" class="brunch" data-type="text" data-pk="{{row.id}}">{{row.brunch}}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr> 
+                                <th>Lunch</th>
+                                {% for row in data %}
+                                <td data-name="lunch" class="lunch" data-type="text" data-pk="{{row.id}}">{{row.lunch}}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr> 
+                                <th>Snack</th>
+                                {% for row in data %}
+                                <td data-name="snack" class="snack" data-type="text" data-pk="{{row.id}}">{{row.snack}}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr> 
+                                <th>Dinner</th>
+                                {% for row in data %}
+                                <td data-name="dinner" class="dinner" data-type="text" data-pk="{{row.id}}">{{row.dinner}}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                <th></th>
+                                {% for row in data %}
+                                <td><a href="javascript:del('{{row.id}}')" class="btn btn-primary">Delete</a></td>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

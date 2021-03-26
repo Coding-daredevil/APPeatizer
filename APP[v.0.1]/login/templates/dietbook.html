@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class ="card-wrapper">
+
+        <div class="card">
+
+            <h1 class="center">Dashboard</h1>
+            <p class="center">You are currently logged in.</p>
+            
+            <div class="center">
+                <a href="/user/signout" class="btn btn--secondary">Sign Out</a>
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h2 class="center">Your Info</h2>
+
+            <p>
+                <strong>ID:</strong> {{ session['user']['_id']}}
+                <strong>Name:</strong> {{ session['user']['name']}}
+                <strong>Email:</strong> {{ session['user']['email']}}
+            </p>
+        </div>
+
+    </div>
+
+    <div class ="container" style="width:100%">
+        <h3 align="center">Book Inline Editing</h3>
+        <br />
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                  Add New Day
+                </button>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table id="user_dietbook" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                {% for header in headings %}
+                                <th>{{ header }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr> 
+                                <th>Breakfast</th>
+                                {% for row in data %}
+                                <td data-name="breakfast" class="breakfast" data-type="text" data-pk="{{row.id}}">{{row.breakfast}}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr> 
+                                <th>Brunch</th>
+                                {% for row in data %}
+                                <td data-name="brunch" class="brunch" data-type="text" data-pk="{{row.id}}">{{row.brunch}}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr> 
+                                <th>Lunch</th>
+                                {% for row in data %}
+                                <td data-name="lunch" class="lunch" data-type="text" data-pk="{{row.id}}">{{row.lunch}}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr> 
+                                <th>Snack</th>
+                                {% for row in data %}
+                                <td data-name="snack" class="snack" data-type="text" data-pk="{{row.id}}">{{row.snack}}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr> 
+                                <th>Dinner</th>
+                                {% for row in data %}
+                                <td data-name="dinner" class="dinner" data-type="text" data-pk="{{row.id}}">{{row.dinner}}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                <th></th>
+                                {% for row in data %}
+                                <td><a href="javascript:del('{{row.id}}')" class="btn btn-primary">Delete</a></td>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table> 
+                    {% block start_date %}
+                    <!-- <a href="javascript:prev('{{start_date}}')" class="btn btn-secondary">Previous</a> -->
+                    <button class="btn btn-primary prev" prev="{{ start_date }}" col="{{ col }}">Previous</button>
+                    {% endblock %}
+                    {% block end_date %}
+                    <!-- <a href="javascript:next('{{end_date}}')" class="btn btn-secondary">Next</a> -->
+                    <button class="btn btn-primary next" next="{{ end_date }}" col="{{ col }}">Next</button>
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add New Day</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" method="post" action="/add">
+                            <div class="form-group">
+                                <label class="row-form-label">Breakfast:</label>
+                                <input type="text" class="form-control" id="txtbreakfast" name="txtbreakfast">
+                            </div>
+                            <div class="form-group">
+                                <label class="row-form-label">Brunch:</label>
+                                <input type="text" class="form-control" id="txtbrunch" name="txtbrunch">
+                            </div>
+                            <div class="form-group">
+                                <label class="row-form-label">Lunch:</label>
+                                <input type="text" class="form-control" id="txtlunch" name="txtlunch">
+                            </div>
+                            <div class="form-group">
+                                <label class="row-form-label">Snack:</label>
+                                <input type="text" class="form-control" id="txtsnack" name="txtsnack">
+                            </div>
+                            <div class="form-group">
+                                <label class="row-form-label">Dinner:</label>
+                                <input type="text" class="form-control" id="txtdinner" name="txtdinner">
+                            </div>
+                            <div class="form-group">
+                                <label class="row-form-label">Details:</label>
+                                <input type="text" class="form-control" id="txtdetails" name="txtdetails">
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input name="cmdsubmit" class="btn btn-primary" type="submit" value="Submit" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <br />
+        <br /> 
+        
+
+        <div class="card-wrapper">
+
+            <div class="dietbook">
+                <h1 class="center">Submit your day! Today is:</h1>
+                <form name="day_input_form">
+                    
+                    <label for="name">Breakfast</label>
+                    <input type="text" name="breakfast" class="field" required>
+    
+                    <label for="name">Brunch</label>
+                    <input type="text" name="brunch" class="field" required>
+    
+                    <label for="name">Lunch</label>
+                    <input type="text" name="lunch" class="field" required>
+    
+                    <label for="name">Snack</label>
+                    <input type="text" name="snack" class="field" required>
+    
+                    <label for="name">Dinner</label>
+                    <input type="text" name="dinner" class="field" required>
+    
+                    <label for="name">Additional Details</label>
+                    <textarea id="details" name="details" placeholder="Write something.." style="height:100px"></textarea>
+               
+                    <p class="error error--hidden"></p>
+    
+                    <input type="submit" value="Submit!" class="btn">
+                    
+                </form>
+    
+            </div>
+    
+    
+        </div>
+    {% endblock %}

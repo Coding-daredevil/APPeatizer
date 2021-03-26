@@ -1,0 +1,56 @@
+<table id="user_dietbook" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            {% for header in headings %}
+            <th>{{ header }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        <tr> 
+            <th>Breakfast</th>
+            {% for row in data %}
+            <td data-name="breakfast" class="breakfast" data-type="text" data-pk="{{row.id}}">{{row.breakfast}}</td>
+            {% endfor %}
+        </tr>
+        <tr> 
+            <th>Brunch</th>
+            {% for row in data %}
+            <td data-name="brunch" class="brunch" data-type="text" data-pk="{{row.id}}">{{row.brunch}}</td>
+            {% endfor %}
+        </tr>
+        <tr> 
+            <th>Lunch</th>
+            {% for row in data %}
+            <td data-name="lunch" class="lunch" data-type="text" data-pk="{{row.id}}">{{row.lunch}}</td>
+            {% endfor %}
+        </tr>
+        <tr> 
+            <th>Snack</th>
+            {% for row in data %}
+            <td data-name="snack" class="snack" data-type="text" data-pk="{{row.id}}">{{row.snack}}</td>
+            {% endfor %}
+        </tr>
+        <tr> 
+            <th>Dinner</th>
+            {% for row in data %}
+            <td data-name="dinner" class="dinner" data-type="text" data-pk="{{row.id}}">{{row.dinner}}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th></th>
+            {% for row in data %}
+            <td><a href="javascript:del('{{row.id}}')" class="btn btn-primary">Delete</a></td>
+            {% endfor %}
+        </tr>
+    </tbody>
+    <tfoot>
+        {% block start_date %}
+        <button class="btn btn-primary prev" prev="{{ start_date }}" col="{{ col }}">Previous</button>
+        {% endblock %}
+        {% block end_date %}
+        <button class="btn btn-primary next" next="{{ end_date }}" col="{{ col }}">Next</button>
+        {% endblock %}
+    </tfoot>
+</table> 
