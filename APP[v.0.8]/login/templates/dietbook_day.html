@@ -1,0 +1,951 @@
+<table id="user_dietbook" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            {% for header in headings %}
+            <th>{{ header }}</th>
+            <th>Calorie Consumption</th>
+            <th>Nutritional Value</th>
+            <th>Exercised?</th>
+            <th>Calorie Burnout</th>
+            <th>Hunger Before</th>
+            <th>Hunger After</th>
+            <th>Mood</th>
+            <th>Company</th>
+            <th>Filled Just Before or Right After?</th>
+            <th>Weight Measurement</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        <tr> 
+            <th>Breakfast</th>
+            {% for row in data %}
+            <td style= "width: 500px"><table id='ub' style="max-height: 1px; overflow-y: scroll; border: none;">
+                <thead></thead>
+                <tbody>
+                    {% for index in row.breakfast %}
+                    <tr style='height:1px;'><td style='height: 1px; padding:0px; margin:0px; overflow-y: scroll; border:none;' data-name="breakfast" class="breakfast" data-type="text" data-pk="{{row.id}}+{{loop.index - 1}}+{{row.date}}+food_update+breakfast+day">{{row.breakfast[index]['name']}}</td></tr>
+                    {% endfor %}
+                    <tr style='height:1px;'><td style='height: 1px; padding:0px; margin:0px; overflow-y: scroll; border:none;' data-name="breakfast" class="breakfast" data-type="text" data-pk="{{row.id}}+new+{{row.date}}+food_update+breakfast+day">--insert new element here--</td></tr>
+                </tbody>
+            </table></td>
+            <td style = "width: 350px" class="breakfast_calories">
+                {% for index in row.breakfast %}
+                {{'%0.2f'|format(row.breakfast[index]['ENERC_KCAL']['quantity'])}}
+                <br>
+                {% endfor %}
+            </td>
+            <td style = "width: 450px"class="breakfast_nutritional">
+                {% for index in row.breakfast %}
+                {{row.breakfast[index]['PROCNT']['label']}}: {{'%0.2f'|format(row.breakfast[index]['PROCNT']['quantity'])}}, {{row.breakfast[index]['CHOCDF']['label']}}: {{'%0.2f'|format(row.breakfast[index]['CHOCDF']['quantity'])}}, {{row.breakfast[index]['FAT']['label']}}: {{'%0.2f'|format(row.breakfast[index]['FAT']['quantity'])}}
+                <br>
+                {% endfor %}
+            </td>
+            <td class="checkbox_exercise" data="{{row.id}}+no_loop+{{row.date}}+exercise+breakfast" value="{{row.exercise_status['breakfast']}}">
+                <br>
+                <label>
+                    {% if row.exercise_status['breakfast'] == 'True' %} <input id="breakfast_exercise" type="checkbox" name="breakfast_exercise" checked="checked">
+                    {% else %} <input id="breakfast_exercise" type="checkbox" name="breakfast_exercise"> {% endif %}
+                </label>
+            </td>
+            <td class="exercise_burnout" data="{{row.id}}+no_loop+{{row.date}}+exercise_burnout+breakfast_burnout">
+                <br>
+                <label>
+                    {% if row.exercise_status['breakfast'] == 'True' %} 
+                    <input id="exercise_burnout_input" style="text-align:center;" list="exercise_types" name="exercise_burnout_input" value="{{row.exercise_status['breakfast_burnout']}}">
+                    <datalist id="exercise_types">
+                        <option value="Very Light Exercise">
+                        <option value="Light Exercise">
+                        <option value="Moderate Exercise">
+                        <option value="Intense Exercise">
+                        <option value="Very Intense Exercise">
+                    </datalist>
+                    {% else %} <input id="exercise_burnout_input" style="text-align:center;" type="text" name="exercise_burnout_input" disabled> {% endif %}
+                </label>
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+breakfast_hunger_before">
+                <br>
+                {% if row.miscellaneous['breakfast_hunger_before'] == 'Unset' %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% else %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['breakfast_hunger_before']}}</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+breakfast_hunger_after">
+                <br>
+                {% if row.miscellaneous['breakfast_hunger_after'] == 'Unset' %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% else %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['breakfast_hunger_after']}}</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+breakfast_mood">
+                <br>
+                {% if row.miscellaneous['breakfast_mood'] == 'Unset' %}
+                <select name="mood" id="mood">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Extremely Negative">Extremely Negative</option>
+                    <option value="Negative">Negative</option>
+                    <option value="Slightly Negative">Slightly Negative</option>
+                    <option value="Neutral">Neutral</option>
+                    <option value="Slightly Positive">Slightly Positive</option>
+                    <option value="Positive">Positive</option>
+                    <option value="Extremely Positive">Extremely Positive</option>
+                </select>
+                {% else %}
+                <select name="mood" id="mood">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['breakfast_mood']}}</option>
+                    <option value="Extremely Negative">Extremely Negative</option>
+                    <option value="Negative">Negative</option>
+                    <option value="Slightly Negative">Slightly Negative</option>
+                    <option value="Neutral">Neutral</option>
+                    <option value="Slightly Positive">Slightly Positive</option>
+                    <option value="Positive">Positive</option>
+                    <option value="Extremely Positive">Extremely Positive</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+breakfast_company">
+                <br>
+                {% if row.miscellaneous['breakfast_company'] == 'Unset' %}
+                <select name="company" id="company">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Alone">Alone</option>
+                    <option value="Family">Family</option>
+                    <option value="Friends">Friends</option>
+                    <option value="Colleagues">Colleagues</option>
+                    <option value="Business">Business</option>
+                    <option value="Romantic Interest">Romantic Interest</option>
+                </select>
+                {% else %}
+                <select name="company" id="company">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['breakfast_company']}}</option>
+                    <option value="Alone">Alone</option>
+                    <option value="Family">Family</option>
+                    <option value="Friends">Friends</option>
+                    <option value="Colleagues">Colleagues</option>
+                    <option value="Business">Business</option>
+                    <option value="Romantic Interest">Romantic Interest</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+breakfast_filled">
+                <br>
+                {% if row.miscellaneous['breakfast_filled'] == 'Unset' %}
+                <select name="filled" id="filled">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="True">True</option>
+                    <option value="False">False</option>
+                </select>
+                {% else %}
+                <select name="filled" id="filled">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['breakfast_filled']}}</option>
+                    <option value="True">True</option>
+                    <option value="False">False</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="weight_measurement" data="{{row.id}}+no_loop+{{row.date}}+misc+breakfast_weight_measurement">
+                <br>
+                <input id="weight_measurement" style="text-align:center;" name="weight_measurement" value="{{row.miscellaneous['breakfast_weight_measurement']}}">
+            </td>
+            {% endfor %}
+        </tr>
+        <tr> 
+            <th>Brunch</th>
+            {% for row in data %}
+            <td><table id='ub' style="max-height: 1px; overflow-y: scroll; border: none;">
+                <thead></thead>
+                <tbody>
+                    {% for index in row.brunch %}
+                    <tr style='height:1px;'><td style='height: 1px; padding:0px; margin:0px; overflow-y: scroll; border:none;' data-name="brunch" class="brunch" data-type="text" data-pk="{{row.id}}+{{loop.index - 1}}+{{row.date}}+food_update+brunch+day">{{row.brunch[index]['name']}}</td></tr>
+                    {% endfor %}
+                    <tr style='height:1px;'><td style='height: 1px; padding:0px; margin:0px; overflow-y: scroll; border:none;' data-name="brunch" class="brunch" data-type="text" data-pk="{{row.id}}+new+{{row.date}}+food_update+brunch+day">--insert new element here--</td></tr>
+                </tbody>
+            </table></td>
+            <td class="brunch_calories">
+                {% for index in row.brunch %}
+                {{'%0.2f'|format(row.brunch[index]['ENERC_KCAL']['quantity'])}}
+                <br>
+                {% endfor %}
+            </td>
+            <td class="brunch_nutritional">
+                {% for index in row.brunch %}
+                {{row.brunch[index]['PROCNT']['label']}}: {{'%0.2f'|format(row.brunch[index]['PROCNT']['quantity'])}}, {{row.brunch[index]['CHOCDF']['label']}}: {{'%0.2f'|format(row.brunch[index]['CHOCDF']['quantity'])}}, {{row.brunch[index]['FAT']['label']}}: {{'%0.2f'|format(row.brunch[index]['FAT']['quantity'])}}
+                <br>
+                {% endfor %}
+            </td>
+            <td class="checkbox_exercise" data="{{row.id}}+no_loop+{{row.date}}+exercise+brunch" value="{{row.exercise_status['brunch']}}">
+                <br>
+                <label>
+                    {% if row.exercise_status['brunch'] == 'True' %} <input id="brunch_exercise" type="checkbox" name="brunch_exercise" checked="checked">
+                    {% else %} <input id="brunch_exercise" type="checkbox" name="brunch_exercise"> {% endif %}
+                </label>
+            </td>
+            <td class="exercise_burnout" data="{{row.id}}+no_loop+{{row.date}}+exercise_burnout+brunch_burnout">
+                <br>
+                <label>
+                    {% if row.exercise_status['brunch'] == 'True' %} <input id="brunch_burnout" style="text-align:center;" list="exercise_types" name="brunch_burnout" value="{{row.exercise_status['brunch_burnout']}}">
+                    <datalist id="exercise_types">
+                        <option value="Very Light Exercise">
+                        <option value="Light Exercise">
+                        <option value="Moderate Exercise">
+                        <option value="Intense Exercise">
+                        <option value="Very Intense Exercise">
+                    </datalist>
+                    {% else %} <input id="brunch_burnout" style="text-align:center;" type="text" name="brunch_burnout" disabled> {% endif %}
+                </label>
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+brunch_hunger_before">
+                <br>
+                {% if row.miscellaneous['brunch_hunger_before'] == 'Unset' %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% else %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['brunch_hunger_before']}}</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+brunch_hunger_after">
+                <br>
+                {% if row.miscellaneous['brunch_hunger_after'] == 'Unset' %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% else %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['brunch_hunger_after']}}</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+brunch_mood">
+                <br>
+                {% if row.miscellaneous['brunch_mood'] == 'Unset' %}
+                <select name="mood" id="mood">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Extremely Negative">Extremely Negative</option>
+                    <option value="Negative">Negative</option>
+                    <option value="Slightly Negative">Slightly Negative</option>
+                    <option value="Neutral">Neutral</option>
+                    <option value="Slightly Positive">Slightly Positive</option>
+                    <option value="Positive">Positive</option>
+                    <option value="Extremely Positive">Extremely Positive</option>
+                </select>
+                {% else %}
+                <select name="mood" id="mood">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['brunch_mood']}}</option>
+                    <option value="Extremely Negative">Extremely Negative</option>
+                    <option value="Negative">Negative</option>
+                    <option value="Slightly Negative">Slightly Negative</option>
+                    <option value="Neutral">Neutral</option>
+                    <option value="Slightly Positive">Slightly Positive</option>
+                    <option value="Positive">Positive</option>
+                    <option value="Extremely Positive">Extremely Positive</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+brunch_company">
+                <br>
+                {% if row.miscellaneous['brunch_company'] == 'Unset' %}
+                <select name="company" id="company">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Alone">Alone</option>
+                    <option value="Family">Family</option>
+                    <option value="Friends">Friends</option>
+                    <option value="Colleagues">Colleagues</option>
+                    <option value="Business">Business</option>
+                    <option value="Romantic Interest">Romantic Interest</option>
+                </select>
+                {% else %}
+                <select name="company" id="company">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['brunch_company']}}</option>
+                    <option value="Alone">Alone</option>
+                    <option value="Family">Family</option>
+                    <option value="Friends">Friends</option>
+                    <option value="Colleagues">Colleagues</option>
+                    <option value="Business">Business</option>
+                    <option value="Romantic Interest">Romantic Interest</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+brunch_filled">
+                <br>
+                {% if row.miscellaneous['brunch_filled'] == 'Unset' %}
+                <select name="filled" id="filled">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="True">True</option>
+                    <option value="False">False</option>
+                </select>
+                {% else %}
+                <select name="filled" id="filled">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['brunch_filled']}}</option>
+                    <option value="True">True</option>
+                    <option value="False">False</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="weight_measurement" data="{{row.id}}+no_loop+{{row.date}}+misc+brunch_weight_measurement">
+                <br>
+                <input id="weight_measurement" style="text-align:center;" name="weight_measurement" value="{{row.miscellaneous['brunch_weight_measurement']}}">
+            </td>
+            {% endfor %}
+        </tr>
+        <tr> 
+            <th>Lunch</th>
+            {% for row in data %}
+            <td><table id='ub' style="max-height: 1px; overflow-y: scroll; border: none;">
+                <thead></thead>
+                <tbody>
+                    {% for index in row.lunch %}
+                    <tr style='height:1px;'><td style='height: 1px; padding:0px; margin:0px; overflow-y: scroll; border:none;' data-name="lunch" class="lunch" data-type="text" data-pk="{{row.id}}+{{loop.index - 1}}+{{row.date}}+food_update+lunch+day">{{row.lunch[index]['name']}}</td></tr>
+                    {% endfor %}
+                    <tr style='height:1px;'><td style='height: 1px; padding:0px; margin:0px; overflow-y: scroll; border:none;' data-name="lunch" class="lunch" data-type="text" data-pk="{{row.id}}+new+{{row.date}}+food_update+lunch+day">--insert new element here--</td></tr>
+                </tbody>
+            </table></td>
+            <td class="lunch_calories">
+                {% for index in row.lunch %}
+                {{'%0.2f'|format(row.lunch[index]['ENERC_KCAL']['quantity'])}}
+                <br>
+                {% endfor %}
+            </td>
+            <td class="lunch_nutritional">
+                {% for index in row.lunch %}
+                {{row.lunch[index]['PROCNT']['label']}}: {{'%0.2f'|format(row.lunch[index]['PROCNT']['quantity'])}}, {{row.lunch[index]['CHOCDF']['label']}}: {{'%0.2f'|format(row.lunch[index]['CHOCDF']['quantity'])}}, {{row.lunch[index]['FAT']['label']}}: {{'%0.2f'|format(row.lunch[index]['FAT']['quantity'])}}
+                <br>
+                {% endfor %}
+            </td>
+            <td class="checkbox_exercise" data="{{row.id}}+no_loop+{{row.date}}+exercise+lunch" value="{{row.exercise_status['lunch']}}">
+                <br>
+                <label>
+                    {% if row.exercise_status['lunch'] == 'True' %} <input id="lunch_exercise" type="checkbox" name="lunch_exercise" checked="checked">
+                    {% else %} <input id="lunch_exercise" type="checkbox" name="lunch_exercise"> {% endif %}
+                </label>
+            </td>
+            <td class="exercise_burnout" data="{{row.id}}+no_loop+{{row.date}}+exercise_burnout+lunch_burnout">
+                <br>
+                <label>
+                    {% if row.exercise_status['lunch'] == 'True' %} <input id="lunch_burnout" style="text-align:center;" list="exercise_types" name="lunch_burnout" value="{{row.exercise_status['lunch_burnout']}}">
+                    <datalist id="exercise_types">
+                        <option value="Very Light Exercise">
+                        <option value="Light Exercise">
+                        <option value="Moderate Exercise">
+                        <option value="Intense Exercise">
+                        <option value="Very Intense Exercise">
+                    </datalist>
+                    {% else %} <input id="lunch_burnout" style="text-align:center;" type="text" name="lunch_burnout" disabled> {% endif %}
+                </label>
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+lunch_hunger_before">
+                <br>
+                {% if row.miscellaneous['lunch_hunger_before'] == 'Unset' %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% else %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['lunch_hunger_before']}}</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+lunch_hunger_after">
+                <br>
+                {% if row.miscellaneous['lunch_hunger_after'] == 'Unset' %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% else %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['lunch_hunger_after']}}</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+lunch_mood">
+                <br>
+                {% if row.miscellaneous['lunch_mood'] == 'Unset' %}
+                <select name="mood" id="mood">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Extremely Negative">Extremely Negative</option>
+                    <option value="Negative">Negative</option>
+                    <option value="Slightly Negative">Slightly Negative</option>
+                    <option value="Neutral">Neutral</option>
+                    <option value="Slightly Positive">Slightly Positive</option>
+                    <option value="Positive">Positive</option>
+                    <option value="Extremely Positive">Extremely Positive</option>
+                </select>
+                {% else %}
+                <select name="mood" id="mood">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['lunch_mood']}}</option>
+                    <option value="Extremely Negative">Extremely Negative</option>
+                    <option value="Negative">Negative</option>
+                    <option value="Slightly Negative">Slightly Negative</option>
+                    <option value="Neutral">Neutral</option>
+                    <option value="Slightly Positive">Slightly Positive</option>
+                    <option value="Positive">Positive</option>
+                    <option value="Extremely Positive">Extremely Positive</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+lunch_company">
+                <br>
+                {% if row.miscellaneous['lunch_company'] == 'Unset' %}
+                <select name="company" id="company">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Alone">Alone</option>
+                    <option value="Family">Family</option>
+                    <option value="Friends">Friends</option>
+                    <option value="Colleagues">Colleagues</option>
+                    <option value="Business">Business</option>
+                    <option value="Romantic Interest">Romantic Interest</option>
+                </select>
+                {% else %}
+                <select name="company" id="company">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['lunch_company']}}</option>
+                    <option value="Alone">Alone</option>
+                    <option value="Family">Family</option>
+                    <option value="Friends">Friends</option>
+                    <option value="Colleagues">Colleagues</option>
+                    <option value="Business">Business</option>
+                    <option value="Romantic Interest">Romantic Interest</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+lunch_filled">
+                <br>
+                {% if row.miscellaneous['lunch_filled'] == 'Unset' %}
+                <select name="filled" id="filled">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="True">True</option>
+                    <option value="False">False</option>
+                </select>
+                {% else %}
+                <select name="filled" id="filled">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['lunch_filled']}}</option>
+                    <option value="True">True</option>
+                    <option value="False">False</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="weight_measurement" data="{{row.id}}+no_loop+{{row.date}}+misc+lunch_weight_measurement">
+                <br>
+                <input id="weight_measurement" style="text-align:center;" name="weight_measurement" value="{{row.miscellaneous['lunch_weight_measurement']}}">
+            </td>
+            {% endfor %}
+        </tr>
+        <tr> 
+            <th>Snack</th>
+            {% for row in data %}
+            <td><table id='ub' style="max-height: 1px; overflow-y: scroll; border: none;">
+                <thead></thead>
+                <tbody>
+                    {% for index in row.snack %}
+                    <tr style='height:1px;'><td style='height: 1px; padding:0px; margin:0px; overflow-y: scroll; border:none;' data-name="snack" class="snack" data-type="text" data-pk="{{row.id}}+{{loop.index - 1}}+{{row.date}}+food_update+snack+day">{{row.snack[index]['name']}}</td></tr>
+                    {% endfor %}
+                    <tr style='height:1px;'><td style='height: 1px; padding:0px; margin:0px; overflow-y: scroll; border:none;' data-name="snack" class="snack" data-type="text" data-pk="{{row.id}}+new+{{row.date}}+food_update+snack+day">--insert new element here--</td></tr>
+                </tbody>
+            </table></td>
+            <td class="snack_calories">
+                {% for index in row.snack %}
+                {{'%0.2f'|format(row.snack[index]['ENERC_KCAL']['quantity'])}}
+                <br>
+                {% endfor %}
+            </td>
+            <td class="snack_nutritional">
+                {% for index in row.snack %}
+                {{row.snack[index]['PROCNT']['label']}}: {{'%0.2f'|format(row.snack[index]['PROCNT']['quantity'])}}, {{row.snack[index]['CHOCDF']['label']}}: {{'%0.2f'|format(row.snack[index]['CHOCDF']['quantity'])}}, {{row.snack[index]['FAT']['label']}}: {{'%0.2f'|format(row.snack[index]['FAT']['quantity'])}}
+                <br>
+                {% endfor %}
+            </td>
+            <td class="checkbox_exercise" data="{{row.id}}+no_loop+{{row.date}}+exercise+snack" value="{{row.exercise_status['snack']}}">
+                <br>
+                <label>
+                    {% if row.exercise_status['snack'] == 'True' %} <input id="snack_exercise" type="checkbox" name="snack_exercise" checked="checked">
+                    {% else %} <input id="snack_exercise" type="checkbox" name="snack_exercise"> {% endif %}
+                </label>
+            </td>
+            <td class="exercise_burnout" data="{{row.id}}+no_loop+{{row.date}}+exercise_burnout+snack_burnout">
+                <br>
+                <label>
+                    {% if row.exercise_status['snack'] == 'True' %} <input id="snack_burnout" style="text-align:center;" list="exercise_types" name="snack_burnout" value="{{row.exercise_status['snack_burnout']}}">
+                    <datalist id="exercise_types">
+                        <option value="Very Light Exercise">
+                        <option value="Light Exercise">
+                        <option value="Moderate Exercise">
+                        <option value="Intense Exercise">
+                        <option value="Very Intense Exercise">
+                    </datalist>
+                    {% else %} <input id="snack_burnout" style="text-align:center;" type="text" name="snack_burnout" disabled> {% endif %}
+                </label>
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+snack_hunger_before">
+                <br>
+                {% if row.miscellaneous['snack_hunger_before'] == 'Unset' %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% else %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['snack_hunger_before']}}</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+snack_hunger_after">
+                <br>
+                {% if row.miscellaneous['snack_hunger_after'] == 'Unset' %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% else %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['snack_hunger_after']}}</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+snack_mood">
+                <br>
+                {% if row.miscellaneous['snack_mood'] == 'Unset' %}
+                <select name="mood" id="mood">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Extremely Negative">Extremely Negative</option>
+                    <option value="Negative">Negative</option>
+                    <option value="Slightly Negative">Slightly Negative</option>
+                    <option value="Neutral">Neutral</option>
+                    <option value="Slightly Positive">Slightly Positive</option>
+                    <option value="Positive">Positive</option>
+                    <option value="Extremely Positive">Extremely Positive</option>
+                </select>
+                {% else %}
+                <select name="mood" id="mood">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['snack_mood']}}</option>
+                    <option value="Extremely Negative">Extremely Negative</option>
+                    <option value="Negative">Negative</option>
+                    <option value="Slightly Negative">Slightly Negative</option>
+                    <option value="Neutral">Neutral</option>
+                    <option value="Slightly Positive">Slightly Positive</option>
+                    <option value="Positive">Positive</option>
+                    <option value="Extremely Positive">Extremely Positive</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+snack_company">
+                <br>
+                {% if row.miscellaneous['snack_company'] == 'Unset' %}
+                <select name="company" id="company">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Alone">Alone</option>
+                    <option value="Family">Family</option>
+                    <option value="Friends">Friends</option>
+                    <option value="Colleagues">Colleagues</option>
+                    <option value="Business">Business</option>
+                    <option value="Romantic Interest">Romantic Interest</option>
+                </select>
+                {% else %}
+                <select name="company" id="company">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['snack_company']}}</option>
+                    <option value="Alone">Alone</option>
+                    <option value="Family">Family</option>
+                    <option value="Friends">Friends</option>
+                    <option value="Colleagues">Colleagues</option>
+                    <option value="Business">Business</option>
+                    <option value="Romantic Interest">Romantic Interest</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+snack_filled">
+                <br>
+                {% if row.miscellaneous['snack_filled'] == 'Unset' %}
+                <select name="filled" id="filled">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="True">True</option>
+                    <option value="False">False</option>
+                </select>
+                {% else %}
+                <select name="filled" id="filled">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['snack_filled']}}</option>
+                    <option value="True">True</option>
+                    <option value="False">False</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="weight_measurement" data="{{row.id}}+no_loop+{{row.date}}+misc+snack_weight_measurement">
+                <br>
+                <input id="weight_measurement" style="text-align:center;" name="weight_measurement" value="{{row.miscellaneous['snack_weight_measurement']}}">
+            </td>
+            {% endfor %}
+        </tr>
+        <tr> 
+            <th>Dinner</th>
+            {% for row in data %}
+            <td><table id='ub' style="max-height: 1px; overflow-y: scroll; border: none;">
+                <thead></thead>
+                <tbody>
+                    {% for index in row.dinner %}
+                    <tr style='height:1px;'><td style='height: 1px; padding:0px; margin:0px; overflow-y: scroll; border:none;' data-name="dinner" class="dinner" data-type="text" data-pk="{{row.id}}+{{loop.index - 1}}+{{row.date}}+food_update+dinner+day">{{row.dinner[index]['name']}}</td></tr>
+                    {% endfor %}
+                    <tr style='height:1px;'><td style='height: 1px; padding:0px; margin:0px; overflow-y: scroll; border:none;' data-name="dinner" class="dinner" data-type="text" data-pk="{{row.id}}+new+{{row.date}}+food_update+dinner+day">--insert new element here--</td></tr>
+                </tbody>
+            </table></td>
+            <td class="dinner_calories">
+                {% for index in row.dinner %}
+                {{'%0.2f'|format(row.dinner[index]['ENERC_KCAL']['quantity'])}}
+                <br>
+                {% endfor %}
+            </td>
+            <td class="dinner_nutritional">
+                {% for index in row.dinner %}
+                {{row.dinner[index]['PROCNT']['label']}}: {{'%0.2f'|format(row.dinner[index]['PROCNT']['quantity'])}}, {{row.dinner[index]['CHOCDF']['label']}}: {{'%0.2f'|format(row.dinner[index]['CHOCDF']['quantity'])}}, {{row.dinner[index]['FAT']['label']}}: {{'%0.2f'|format(row.dinner[index]['FAT']['quantity'])}}
+                <br>
+                {% endfor %}
+            </td>
+            <td class="checkbox_exercise" data="{{row.id}}+no_loop+{{row.date}}+exercise+dinner" value="{{row.exercise_status['dinner']}}">
+                <br>
+                <label>
+                    {% if row.exercise_status['dinner'] == 'True' %} <input id="dinner_exercise" type="checkbox" name="dinner_exercise" checked="checked">
+                    {% else %} <input id="dinner_exercise" type="checkbox" name="dinner_exercise"> {% endif %}
+                </label>
+            </td>
+            <td class="exercise_burnout" data="{{row.id}}+no_loop+{{row.date}}+exercise_burnout+dinner_burnout">
+                <br>
+                <label>
+                    {% if row.exercise_status['dinner'] == 'True' %} <input id="dinner_burnout" style="text-align:center;" list="exercise_types" name="dinner_burnout" value="{{row.exercise_status['dinner_burnout']}}">
+                    <datalist id="exercise_types">
+                        <option value="Very Light Exercise">
+                        <option value="Light Exercise">
+                        <option value="Moderate Exercise">
+                        <option value="Intense Exercise">
+                        <option value="Very Intense Exercise">
+                    </datalist>
+                    {% else %} <input id="dinner_burnout" style="text-align:center;" type="text" name="dinner_burnout" disabled> {% endif %}
+                </label>
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+dinner_hunger_before">
+                <br>
+                {% if row.miscellaneous['dinner_hunger_before'] == 'Unset' %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% else %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['dinner_hunger_before']}}</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+dinner_hunger_after">
+                <br>
+                {% if row.miscellaneous['dinner_hunger_after'] == 'Unset' %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% else %}
+                <select name="hunger" id="hunger">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['dinner_hunger_after']}}</option>
+                    <option value="Starving">Starving</option>
+                    <option value="Very Hungry">Very Hungry</option>
+                    <option value="Pretty Hungry">Pretty Hungry</option>
+                    <option value="Somewhat Hungry">Somewhat Hungry</option>
+                    <option value="Satisfied">Satisfied</option>
+                    <option value="Pleasantly Full">Pleasantly Full</option>
+                    <option value="Unpleasantly Full">Unpleasantly Full</option>
+                    <option value="Stuffed">Stuffed</option>
+                    <option value="Overly Stuffed">Overly Stuffed</option>
+                    <option value="Sickeningly Full">Sickeningly Full</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+dinner_mood">
+                <br>
+                {% if row.miscellaneous['dinner_mood'] == 'Unset' %}
+                <select name="mood" id="mood">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Extremely Negative">Extremely Negative</option>
+                    <option value="Negative">Negative</option>
+                    <option value="Slightly Negative">Slightly Negative</option>
+                    <option value="Neutral">Neutral</option>
+                    <option value="Slightly Positive">Slightly Positive</option>
+                    <option value="Positive">Positive</option>
+                    <option value="Extremely Positive">Extremely Positive</option>
+                </select>
+                {% else %}
+                <select name="mood" id="mood">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['dinner_mood']}}</option>
+                    <option value="Extremely Negative">Extremely Negative</option>
+                    <option value="Negative">Negative</option>
+                    <option value="Slightly Negative">Slightly Negative</option>
+                    <option value="Neutral">Neutral</option>
+                    <option value="Slightly Positive">Slightly Positive</option>
+                    <option value="Positive">Positive</option>
+                    <option value="Extremely Positive">Extremely Positive</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+dinner_company">
+                <br>
+                {% if row.miscellaneous['dinner_company'] == 'Unset' %}
+                <select name="company" id="company">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="Alone">Alone</option>
+                    <option value="Family">Family</option>
+                    <option value="Friends">Friends</option>
+                    <option value="Colleagues">Colleagues</option>
+                    <option value="Business">Business</option>
+                    <option value="Romantic Interest">Romantic Interest</option>
+                </select>
+                {% else %}
+                <select name="company" id="company">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['dinner_company']}}</option>
+                    <option value="Alone">Alone</option>
+                    <option value="Family">Family</option>
+                    <option value="Friends">Friends</option>
+                    <option value="Colleagues">Colleagues</option>
+                    <option value="Business">Business</option>
+                    <option value="Romantic Interest">Romantic Interest</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="misc_select" data="{{row.id}}+no_loop+{{row.date}}+misc+dinner_filled">
+                <br>
+                {% if row.miscellaneous['dinner_filled'] == 'Unset' %}
+                <select name="filled" id="filled">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option value="True">True</option>
+                    <option value="False">False</option>
+                </select>
+                {% else %}
+                <select name="filled" id="filled">
+                    <option value="" selected disabled hidden>{{row.miscellaneous['dinner_filled']}}</option>
+                    <option value="True">True</option>
+                    <option value="False">False</option>
+                </select>
+                {% endif %}
+            </td>
+            <td class="weight_measurement" data="{{row.id}}+no_loop+{{row.date}}+misc+dinner_weight_measurement">
+                <br>
+                <input id="weight_measurement" style="text-align:center;" name="weight_measurement" value="{{row.miscellaneous['dinner_weight_measurement']}}">
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Summary</th>
+            <td bgcolor="LightGray"></td>
+            {% if summary.total_calories < 2000 %} <td bgcolor="LightGreen" class="summary_calories">Total Calories: {{'%0.3f'|format(summary.total_calories)}}</td>
+            {% elif summary.total_calories < 2500 %} <td bgcolor="LightYellow" class="summary_calories">Total Calories: {{'%0.3f'|format(summary.total_calories)}}</td>
+            {% else %} <td bgcolor="IndianRed" class="summary_calories">Total Calories: {{'%0.3f'|format(summary.total_calories)}}</td> {% endif %}
+            <td class="summary_nutrition">Total Protein: {{'%0.3f'|format(summary.total_protein)}}<br>Total Carbs: {{'%0.3f'|format(summary.total_carbs)}}<br>Total Fat: {{'%0.3f'|format(summary.total_fat)}}</td>
+            <td class="summary_exercise">Times Exercised: {{summary.times_exercised}}/5</td>
+            <td class="summary_exercise_burnout">Calories Burnt: {{summary.calories_burnt}}</td>
+            <td bgcolor="LightGray"></td>
+            <td bgcolor="LightGray"></td>
+            <td bgcolor="LightGray"></td>
+            <td bgcolor="LightGray"></td>
+            <td bgcolor="LightGray"></td>
+            <td bgcolor="LightGray"></td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <th></th>
+        {% for row in data %}
+        <td><button class="btn btn-primary expand_week" expand_week="{{ row.date }}"col="{{ col }}">Return to Week View</button></td>
+        <!-- <td><a href="javascript:del('{{row.id}}')" class="btn btn-primary">Expand Day</a></td> -->
+        {% endfor %}
+    </tfoot>
+</table> 

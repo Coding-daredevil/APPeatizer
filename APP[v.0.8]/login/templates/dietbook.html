@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body onload="loadToday()"></body>
+
+    <div class ="card-wrapper">
+
+        <div class="card">
+
+            <h1 class="center">Dashboard</h1>
+            <p class="center">You are currently logged in.</p>
+            
+            <div class="center">
+                <a href="/user/signout" class="btn btn--secondary">Sign Out</a>
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h2 class="center">Your Info</h2>
+
+            <p>
+                <strong>ID:</strong> {{ session['user']['_id']}}
+                <strong>Name:</strong> {{ session['user']['name']}}
+                <strong>Email:</strong> {{ session['user']['email']}}
+            </p>
+        </div>
+
+    </div>
+
+    <div class="card">
+        <form name="date_catch">
+            <label for="date_get">Starting Date:</label>
+            <input type="date" id="date_get" name="date_get" min="2010-01-01" max="2030-01-01">
+            <input class="btn btn-secondary" type="submit" value="acquire date"/>
+        </form>
+    </div>
+
+    <div class ="container" style="width:100%">
+        <div class="panel panel-default">
+            <h3 align="center">Dietbook</h3>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table id="user_dietbook" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                {% for header in headings %}
+                                <th>{{ header }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                    </table> 
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

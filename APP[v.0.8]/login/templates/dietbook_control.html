@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class ="card-wrapper">
+
+        <div class="card">
+
+            <h1 class="center">Dashboard</h1>
+            <p class="center">You are currently logged in.</p>
+            
+            <div class="center">
+                <a href="/user/signout" class="btn btn--secondary">Sign Out</a>
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h2 class="center">Your Info</h2>
+
+            <p>
+                <strong>ID:</strong> {{ session['user']['_id']}}
+                <strong>Name:</strong> {{ session['user']['name']}}
+                <strong>Email:</strong> {{ session['user']['email']}}
+            </p>
+        </div>
+
+    </div>
+
+    <div class="card">
+        <form name="userbook_catch">
+            <label for="user">user:</label>
+            <select id="user" name="user">
+                {% for row in userlist %}
+                <option value="{{row.name}}">{{row.name}}</option>
+                {% endfor %}
+            </select>
+            <input class="btn btn-secondary" type="submit" value="Acquire DietBook" />
+        </form>
+    </div>
+
+    <div class ="container" style="width:100%">
+        <div class="panel panel-default">
+            <h3 align="center">Choose table to load</h3>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table id="user_dietbook" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                {% for header in headings %}
+                                <th>{{ header }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr> 
+                                <th>Breakfast</th>
+                                <!-- {% for row in data %}
+                                <td data-name="breakfast" class="breakfast" data-type="text" data-pk="{{row.id}}">{{row.breakfast}}</td>
+                                {% endfor %} -->
+                                {% for row in data %}
+                                <td><table id='ub' style="max-height: 1px; overflow-y: scroll; border: none;">
+                                    <thead></thead>
+                                    <tbody>
+                                        {% for index in row.breakfast %}
+                                        <tr style='height:1px;'><td style='height: 1px; padding:0px; margin:0px; overflow-y: scroll; border:none;' data-name="breakfast" class="breakfast" data-type="text" data-pk="{{row.id}}+{{loop.index - 1}}">{{row.breakfast[index]['name']}}</td></tr>
+                                        {% endfor %}
+                                        <tr style='height:1px;'><td style='height: 1px; padding:0px; margin:0px; overflow-y: scroll; border:none;' data-name="breakfast" class="breakfast" data-type="text" data-pk="{{row.id}}+new">--insert new element here--</td></tr>
+                                    </tbody>
+                                </table></td>
+                                {% endfor %}
+                            </tr>
+                            <tr> 
+                                <th>Brunch</th>
+                                <!-- {% for row in data %}
+                                <td data-name="brunch" class="brunch" data-type="text" data-pk="{{row.id}}">{{row.brunch}}</td>
+                                {% endfor %} -->
+                                {% for row in data %}
+                                <td><table id='ub' style="max-height: 1px; overflow-y: scroll; border: none;">
+                                    <thead></thead>
+                                    <tbody>
+                                        {% for index in row.brunch %}
+                                        <tr style='height:1px;'><td style='height: 1px; padding:0px; margin:0px; overflow-y: scroll; border:none;' data-name="brunch" class="brunch" data-type="text" data-pk="{{row.id}}+{{loop.index - 1}}">{{row.brunch[index]['name']}}</td></tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table></td>
+                                {% endfor %}
+                            </tr>
+                            <tr> 
+                                <th>Lunch</th>
+                                <!-- {% for row in data %}
+                                <td data-name="lunch" class="lunch" data-type="text" data-pk="{{row.id}}">{{row.lunch}}</td>
+                                {% endfor %} -->
+                                {% for row in data %}
+                                <td><table id='ub' style="max-height: 1px; overflow-y: scroll; border: none;">
+                                    <thead></thead>
+                                    <tbody>
+                                        {% for index in row.lunch %}
+                                        <tr style='height:1px;'><td style='height: 1px; padding:0px; margin:0px; overflow-y: scroll; border:none;' data-name="lunch" class="lunch" data-type="text" data-pk="{{row.id}}+{{loop.index - 1}}">{{row.lunch[index]['name']}}</td></tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table></td>
+                                {% endfor %}
+                            </tr>
+                            <tr> 
+                                <th>Snack</th>
+                                <!-- {% for row in data %}
+                                <td data-name="snack" class="snack" data-type="text" data-pk="{{row.id}}">{{row.snack}}</td>
+                                {% endfor %} -->
+                                {% for row in data %}
+                                <td><table id='ub' style="max-height: 1px; overflow-y: scroll; border: none;">
+                                    <thead></thead>
+                                    <tbody>
+                                        {% for index in row.snack %}
+                                        <tr style='height:1px;'><td style='height: 1px; padding:0px; margin:0px; overflow-y: scroll; border:none;' data-name="snack" class="snack" data-type="text" data-pk="{{row.id}}+{{loop.index - 1}}">{{row.snack[index]['name']}}</td></tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table></td>
+                                {% endfor %}
+                            </tr>
+                            <tr> 
+                                <th>Dinner</th>
+                                <!-- {% for row in data %}
+                                <td data-name="dinner" class="dinner" data-type="text" data-pk="{{row.id}}">{{row.dinner}}</td>
+                                {% endfor %} -->
+                                {% for row in data %}
+                                <td><table id='ub' style="max-height: 1px; overflow-y: scroll; border: none;">
+                                    <thead></thead>
+                                    <tbody>
+                                        {% for index in row.dinner %}
+                                        <tr style='height:1px;'><td style='height: 1px; padding:0px; margin:0px; overflow-y: scroll; border:none;' data-name="dinner" class="dinner" data-type="text" data-pk="{{row.id}}+{{loop.index - 1}}">{{row.dinner[index]['name']}}</td></tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table></td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                <th></th>
+                                {% for row in data %}
+                                <td><button class="btn btn-primary expand_day" expand_day="{{ row.date }}" col="{{ col }}">Expand Day</button></td>
+                                {% endfor %}
+                            </tr>
+                        </tbody>
+                    </table> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

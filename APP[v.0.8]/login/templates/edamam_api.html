@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card-wrapper">
+
+    <div class="card">
+
+        <h1 class="center">Edamam Query</h1>
+
+        <form name="edamam_query">
+
+            <label for="query_string">Query to Edamamam</label>
+            <input type="text" name="query_string" class="field" required>
+       
+            <p class="error error--hidden"></p>
+
+            <input type="submit" value="Input" class="btn">
+            
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

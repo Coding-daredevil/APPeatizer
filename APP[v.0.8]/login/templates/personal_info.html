@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card-wrapper">
+    <div class="card">
+        <h1 class="center">Personal Information</h1>
+        <form name="personal_information">
+            <label for="sex">Biological Sex</label>
+            <br>
+            <select name="sex" id="sex" class="field" required>
+                <option value="" selected disabled hidden>{{personal_info['sex']}}</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+            <label for="age">Age</label>
+            <input type="text" class="field" id="age" name="age" value="{{personal_info['age']}}" required>
+            <label for="height">Height</label>
+            <input type="text" class="field" id="height" name="height" value="{{personal_info['height']}}" required>
+            <label for="weight">Weight</label>
+            <input type="text" class="field" id="weight" name="weight" value="{{personal_info['weight']}}" required>
+            <p class="error error--hidden"></p>
+            <input type="submit" value="Submit" class="btn">
+        </form>
+    </div>
+</div>
+{% endblock %}
