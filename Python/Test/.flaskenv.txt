@@ -1,2 +1,0 @@
-set FLASK_APP=todoapp
-set FLASK_ENV=development

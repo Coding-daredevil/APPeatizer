@@ -1,0 +1,14 @@
+Dataset:
+--------
+Download the dataset from one of the links below. Place mfp-diaries.tsv inside ml/data/
+Dataset-Link#1: https://www.kaggle.com/zvikinozadze/myfitnesspal-dataset
+Dataset-Link#2: https://larc.smu.edu.sg/myfitnesspal-food-diary-dataset
+Related-Work-Link: http://cs229.stanford.edu/proj2019aut/data/assignment_308832_raw/26581502.pdf
+
+MongoDB:
+--------
+Local Host connection
+1. MongoDB community server (https://www.mongodb.com/try/download/community)
+2. Setup w/ Compass (connection to local host)
+3. Ready
+
