@@ -1,7 +1,7 @@
 # **Creating the Environment**
 
 ### 1. Download the repository
-> `git clone https://github.com/tzamalisp/lab-nutrition-monitoring-platform.git`
+> `git clone https://github.com/Coding-daredevil/APPeatizer.git`
 ### 2. Download [Anaconda Individual Edition](https://www.anaconda.com/products/individual)
  * The project was developed in a virtual environment in Anaconda, on Windows. There are two ways to recreate the environment, an automatic and a manual one.
     1. The automatic creation of the environment is done through the command: conda env create -f environment.yml 
